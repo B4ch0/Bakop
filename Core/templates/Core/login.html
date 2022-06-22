@@ -1,0 +1,24 @@
+{% extends 'Core/base-login.html' %}  {% block content %}
+
+<div class="flex justify-center pt-8">
+  <div class="w-full max-w-xs">
+    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="POST">
+    
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="username">User</label>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="username" id="inputEmail" type="text" placeholder="User"/>
+      </div>
+      <div class="mb-6">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
+        <input class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" name="password" id="inputPass" type="password" placeholder="Password"/>
+      </div>
+      <div class="flex items-center justify-between">
+        <button class="bg-brand hover:bg-brand text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline " type="submit">PRIJAVA</button>
+      </div>
+    </form>
+    <p class="text-center text-gray-500 text-xs"> &copy;BAKOP Media
+    </p>
+  </div>
+</div>
+{% endblock %}
