@@ -20,5 +20,6 @@ from Core.urls import urlpatterns as Core_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', auth_views.LoginView.as_view(template_name='Core/login.html'), name='login'),
     path('', include(Core_urls)),
 ]

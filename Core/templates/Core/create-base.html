@@ -1,0 +1,21 @@
+{% extends 'Core/base.html' %} {% block content %}
+<div class="w-full flex items-center justify-center pt-8">
+
+    <div class="p-6 rounded-lg shadow-lg bg-white max-w-lg border-4 border-brand flex flex-col items-center">
+        <h1 class="text-4xl">{% block title %}{% endblock %}</h1>
+        <form method="post" class="flex flex-col justify-center">
+            {{ form.non_field_errors }}
+            {% for field in form %}
+           
+        <div class="form-label inline-block mb-2 text-gray-700">
+            {{ field.label_tag }}
+            </div>
+            <div class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none">
+            {{ field }}
+        </div></div>
+    {% endfor %}
+    <input type="submit" value="DODAJ" class="border-2 bg-brand font-bold rounded-lg p-3">
+</form>
+</div>
+</div>
+{% endblock %}
