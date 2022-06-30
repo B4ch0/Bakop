@@ -5,5 +5,6 @@ urlpatterns = [
     path("", home, name="home"),
     
     path('klijenti/', name='client-list'),
+    path('usluge/', name='service-list'),
 
     path('klijent/novi/' , name='client-new'),
