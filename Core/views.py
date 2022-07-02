@@ -10,3 +10,11 @@ class ClientCreateView():
     fields = ['first_name', 'last_name' , 'address','OIB']
     def get_success_url(self, **kwargs):
         return reverse('client-detail', args=[self.object.pk]) 
+
+
+
+class ServiceCreateView(CreateView):
+    model = Service
+    fields = ['service_name','price']
+    def get_success_url(self, **kwargs):
+        return reverse('service-detail', args=[self.object.pk]) 
