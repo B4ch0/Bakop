@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Core',
+    'tailwind',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +133,6 @@ INTERNAL_IPS = [
 ]
 
 
+LOGIN_REDIRECT_URL = 'client-list'
+LOGIN_URL = 'login'
+LOGOUT_REDIRECT_URL = 'login'

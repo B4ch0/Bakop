@@ -6,5 +6,5 @@ urlpatterns = [
     
     path('klijenti/', name='client-list'),
     path('usluge/', name='service-list'),
-
+    path('usluga/nova/', name='service-new'),
     path('klijent/novi/' , name='client-new'),
