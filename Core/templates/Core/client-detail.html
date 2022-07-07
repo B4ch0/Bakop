@@ -6,21 +6,21 @@
 
             <div class=" text-center">IME:</div>
             <div class="block w-full px-3 py-1.5 text-base font-normal">
-            {{ object.first_name }} {{object.last_name}}
+            {{ object.first_name }} {{object.last_name | default_if_none:""}}
         </div>
     </div>  
     <div class="flex flex-row justify-start items-center">
 
         <div class=" text-center">ADRESA:</div>  
         <div class="block w-full px-3 py-1.5 text-base font-normal">
-            {{ object.address }}
+            {{ object.address | default_if_none:"podatak nije unesen"}}
         </div>
         </div>
         <div class="flex flex-row justify-start items-center">
 
             <div class="text-center">OIB:</div>
             <div class="block w-full px-3 py-1.5 text-base font-normal">
-        {{ object.OIB }}
+        {{ object.OIB | default_if_none:"podatak nije unesen" }}
     </div>
     </div>
     <a href="{% url 'client-update' object.pk %}" class="mt-2 border-2 bg-brand rounded-lg p-3"> Izmjeni</a>

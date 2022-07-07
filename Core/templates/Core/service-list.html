@@ -1,4 +1,4 @@
-{% extends 'Core/base.html' %} {% load currency %} {% block content %}
+{% extends 'Core/base.html' %}  {% block content %}
 <div class="w-full pt-2 pr-2 flex flex-row justify-end">
   <button class="bg-brand hover:bg-brand text-white font-bold py-2 px-4 rounded mt-2"><a href="{% url 'service-new' %}">DODAJ USLUGU</a>
 </button>
@@ -7,8 +7,19 @@
   <div class="flex flex-col justify-center items-center w-64">
     <div>
       <p>test</p>
-      <h2 style=" background-color:#e9a611;font-weight: bold; font-size:140%">USLUGA :</h2>
-</div>
-</div>
+      <h2 style=" background-color:#e9a611;font-weight: bold; font-size:140%">USLUGA :</h2> </br>
+    </div>
+    <div class="bg-white rounded-lg shadow w-full">
+      <ul class="divide-y divide-gray-100">
+        {% for service in page_obj %}
+        <li class="p-3 hover:bg-brand hover:text-black text-center">
+          <a href="{% url 'service-detail' service.pk %}"> {{ service.service_name}} &nbsp;&nbsp; {{service.price|floatformat:0}} kn</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    {% include 'Core/pagination.html' %}
+  </div>
 </div>
 {% endblock %}

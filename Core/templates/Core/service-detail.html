@@ -1,0 +1,22 @@
+{% extends 'Core/base.html' %}  {% block content %}
+
+<div class="w-full flex items-center justify-center pt-8 text-center">
+    <div class="p-6 rounded-lg shadow-lg bg-white w-lg border-4 border-brand flex flex-col items-center">
+        <div class="flex flex-row justify-start items-center">
+
+            <div class=" text-center"> Usluga:</div>
+            <div class="block w-full px-3 py-1.5 text-base font-normal">
+            {{ object.service_name }}
+        </div>
+    </div>  
+
+        <div class="flex flex-row justify-start items-center">
+
+            <div class="text-center">Cijena: </div>
+        <div class=" block w-full px-3 py-1.5 text-base font-normal">
+        {{ object.price |floatformat:0}} kn </div>
+    </div>
+    <a href="{% url 'service-update' object.pk %}" class="mt-2 border-2 bg-brand rounded-lg p-3"> IZMJENI</a>
+</div>
+</div>
+{% endblock %}

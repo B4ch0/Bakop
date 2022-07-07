@@ -2,17 +2,30 @@
 {% load static tailwind_tags %}
 <nav class="flex items-center justify-between flex-wrap flex-shrink basis-8 bg-brand px-6">
   <div class="mr-4 border-4 border-brand">
-    <img class="object-contain" src="{% static 'img/Bakop_logo_142x80.png' %} " alt="Iskopi Bakop Pula Istra">
+    <img class="object-contain" src="{% static 'img/Bakop_logo_142x80.png' %} " alt="Workflow">
   </div>
   <div class="block lg:hidden">
-    <button class="flex items-center px-3 py-2 border rounded text-black border-brand hover:text-white hover:border-white">
-   
+    <button
+      class="flex items-center px-3 py-2 border rounded text-black border-brand hover:text-white hover:border-white"
+    >
+    
+        <title>ISKOPI BAKOP</title>
+        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+      </svg>
     </button>
   </div>
   <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-    <div class="text-lg lg:flex-grow">
+    <div class="text-base lg:flex-grow">
       <a href="{% url 'client-list' %}" class="block mt-4 lg:inline-block lg:mt-0 text-black font-bold  hover:text-white mr-4">KLIJENTI</a>
-      <a href="" class="block mt-4 lg:inline-block lg:mt-0 text-black font-bold hover:text-white mr-4">USLUGE</a>
-      <a href="" class="block mt-4 lg:inline-block lg:mt-0 text-black font-bold hover:text-white">RAČUNI</a>
+      <a href="{% url 'service-list' %}" class="block mt-4 lg:inline-block lg:mt-0 text-black font-bold hover:text-white mr-4">USLUGE</a>
+      <a href="{%  %}" class="block mt-4 lg:inline-block lg:mt-0 text-black font-bold hover:text-white">RAČUNI</a>
     </div>
+    <div>
+      {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-black hover:bg-white mt-4 lg:mt-0">ODJAVA</a>
+      {% else %}
+      <a href="{% url 'login' %}" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-black hover:bg-white mt-4 lg:mt-0">PRIJAVA</a>
+      {% endif %}
+    </div>
+  </div>
 </nav>
