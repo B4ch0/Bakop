@@ -10,6 +10,15 @@ from .models import Client, Service
 def home(request):
     return redirect("invoice-list")  
 
+class ClientListView(ListView):
+    model = Client
+
+
+class ServiceListView(ListView):
+    model = Service
+   
+
+
 class ClientCreateView(CreateView):
 
     model = Client
