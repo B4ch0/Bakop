@@ -16,3 +16,9 @@ class Service(models.Model):
 
     def __str__(self) -> str:
         return f'{self.service_name} {self.price}'
+
+
+
+class Invoice(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='invoices', verbose_name="Klijent")
+    vat_percentage = models.PositiveSmallIntegerField(default=25,verbose_name="Porez")

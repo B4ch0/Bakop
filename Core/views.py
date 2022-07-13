@@ -60,3 +60,7 @@ class ServiceUpdateView(UpdateView):
     fields = ['service_name', 'price']
     def get_success_url(self, **kwargs):
         return reverse('service-detail', args=[self.object.pk]) 
+
+class InvoiceCreateView(CreateView):
+    model = Invoice
+    fields = ['client','vat_percentage']
