@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views.generic.edit import CreateView , UpdateView
 from django.shortcuts import redirect, render
 
-from .models import Client, Service
+from .models import Client, Service, Invoice
 
 
 def home(request):
@@ -17,6 +17,9 @@ class ClientListView(ListView):
 class ServiceListView(ListView):
     model = Service
    
+
+class InvoiceListView(ListView):
+    model = Invoice
 
 
 class ClientCreateView(CreateView):

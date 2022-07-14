@@ -4,10 +4,9 @@ from django.urls import path
 urlpatterns = [
     path("", home, name="home"),
     
-    path('klijenti/', login_required(ClientListView.as_view(
-        template_name='Core/client-list.html')), name='client-list'),
-    path('usluge/', login_required(ServiceListView.as_view(
-        template_name='Core/service-list.html')), name='service-list'),
+    path('klijenti/', login_required(ClientListView.as_view(template_name='Core/client-list.html')), name='client-list'),
+    path('usluge/', login_required(ServiceListView.as_view(template_name='Core/service-list.html')), name='service-list'),
+    path('racuni/', login_required(InvoiceListView.as_view(template_name='Core/invoice-list.html')), name='invoice-list'),
 
 
    
