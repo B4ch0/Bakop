@@ -67,3 +67,19 @@ class ServiceUpdateView(UpdateView):
 class InvoiceCreateView(CreateView):
     model = Invoice
     fields = ['client','vat_percentage']
+
+    def get_success_url(self, **kwargs):
+        return reverse('invoice-detail', args=[self.object.pk]) 
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["services"] = Service.objects.all()
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save()
+        for (k,v) in form.data.items():
+            if k.startswith('num_') and len(v) > 0 and v != '0' :
+                service = Service.objects.get(service_name=k.replace('num_',''))
+                InvoiceService.objects.create(service= service,invoice= self.object, quantity=int(v))
+        return HttpResponseRedirect(self.get_success_url())

@@ -1,0 +1,4 @@
+- dodati brisanja
+- maknuti "None" sa ostalih djelova prikaza(field,object)
+- dodati postgresql za prod
+- dodati punude

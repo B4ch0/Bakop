@@ -1,5 +1,13 @@
 
 from django.urls import path
+from django.contrib.auth.decorators import login_required
+from django.urls import path
+from .views import (home, 
+    ClientListView, ServiceListView, 
+    ClientDetailView , ServiceDetailView,
+    ClientCreateView , ServiceCreateView,
+    ClientUpdateView , ServiceUpdateView,
+    )
 
 urlpatterns = [
     path("", home, name="home"),
