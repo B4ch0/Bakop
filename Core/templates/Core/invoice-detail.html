@@ -1,1 +1,38 @@
 {% extends 'Core/base.html' %} {% block content %}
+
+<div class="w-full flex items-center justify-center pt-8 text-center">
+    <div class="p-6 rounded-lg shadow-lg bg-white w-lg border-4 border-brand flex flex-col items-center">
+        <div class="flex flex-row justify-start items-center">
+
+            <div class=" text-center">Klijent:</div>
+            <div class="block w-full px-3 py-1.5 text-base font-normal">
+            {{ object.client }}
+        </div>
+    </div>  
+    <div class="flex flex-row justify-between items-center">
+
+        <div class=" text-center mr-4">Usluga:</div>
+        <span class="flex">
+            {% for service in invoice.invoice_services.all %} {{service.service.service_name}} [{{service.quantity}}]   {% if not forloop.last %}, {% endif %} {% endfor %}
+        </span>
+        </div>
+        <div class="flex flex-row justify-start items-center">
+
+            <div class="text-center">
+                Porez:
+            </div>
+            <div class="block w-full px-3 py-1.5 text-base font-normal">
+        {{ object.vat_percentage }}%
+    </div>
+    </div>
+    <div class="flex flex-row w-full mt-4 justify-center">
+        <div class="mr-4">
+            <a href="{% url 'invoice-update' object.pk %}" class="bg-brand font-bold rounded-lg p-3"> Izmjeni</a>
+        </div>
+        <div>
+            <a href="{% url 'pdf' object.pk %}" class="bg-brand font-bold rounded-lg p-3"> Preuzmi</a>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

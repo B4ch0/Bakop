@@ -1,0 +1,67 @@
+{% load static %}
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!--<link href="invoice.css" media="print" rel="stylesheet">-->
+    <title>Bakop račun</title>
+  </head>
+
+  <body>
+    <img class="object-contain" src="{% static 'img/Bakop_logo_142x80.png' %} " alt="Iskopi bagerom Bakop Istra Pula">
+
+    <aside>
+      <address id="from">
+        BAKOP Pula
+        Jeromelina 29
+        52100 Pula
+      </address>
+      
+      <address id="to">
+        {{client_name | default_if_none:""}}
+        {{client_address | default_if_none:""}}
+      </address>
+    </aside>
+
+  <!-- <dl id="information">
+      <dt>Date</dt>
+      <dd>{{date}}</dd>
+    </dl> -->
+
+    <table>
+      <thead>
+        <tr>
+          <th>Usluga</th>
+          <th>Količina</th>
+          <th>Cijena</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for service in invoice.invoice_services.all %}
+        <tr>
+          <td>{{service.service.service_name}}</td>
+          <td>{{service.quantity}}</td>
+          <td>{{service.service.price|floatformat:0}} kn</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <table id="total">
+      <thead>
+        <tr>
+          <th>Ukupno</th>
+          <th>Porez</th>
+          <th>Ukupno sa porezom</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{total_price|floatformat:2 }} kn</td>
+          <td>{{invoice.vat_percentage}}%</td>
+          <td>{{total_price_inc_vat|floatformat:2}} kn</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

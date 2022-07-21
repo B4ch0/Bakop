@@ -23,6 +23,8 @@ urlpatterns = [
         template_name='Core/client-detail.html')), name='client-detail'),
     path('usluga/<int:pk>/', login_required(ServiceDetailView.as_view(
         template_name='Core/service-detail.html')), name='service-detail'),
+            path('racun/<int:pk>/', login_required(InvoiceDetailView.as_view(
+        template_name='Core/invoice-detail.html')), name='invoice-detail'),
    
 
      path('klijent/izmjena/<int:pk>/', login_required(ClientUpdateView.as_view(
@@ -36,4 +38,6 @@ urlpatterns = [
         template_name='Core/client-new.html')), name='client-new'),
     path('usluga/nova/', login_required(ServiceCreateView.as_view(
         template_name='Core/service-new.html')), name='service-new'),
+    path('racun/novi/', login_required(InvoiceCreateView.as_view(
+        template_name='Core/invoice-new.html')), name='invoice-new'),
     

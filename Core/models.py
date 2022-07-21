@@ -33,3 +33,8 @@ class Invoice(models.Model):
     @property
     def total_price_inc_vat(self):
         return self.total_price + ((self.total_price/100) * self.vat_percentage)
+
+
+
+    def __str__(self) -> str:
+        return f'{self.client}'
