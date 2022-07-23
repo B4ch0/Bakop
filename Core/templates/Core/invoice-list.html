@@ -7,7 +7,18 @@
   <div class="flex flex-col justify-center items-center w-64">
     <h2 style=" background-color:#e9a611;font-weight: bold; font-size:140%">RAČUNI :</h2> </br>
     <div class="bg-white rounded-lg shadow w-full">
-     
+      <ul class="divide-y divide-gray-100">
+        {% for invoice in page_obj %}
+        <li class="p-3 hover:bg-brand hover:text-black text-center">
+          <a href="{% url 'invoice-detail' invoice.pk %}">
+            {{ invoice.client.first_name}} {{invoice.client.last_name | default_if_none:""}}
+            <span class="flex" style="color:grey">
+                {% for service in invoice.invoice_services.all %}   {{service.service.service_name}} [{{service.quantity}}] {% if not forloop.last %}, {% endif %} {% endfor %},
+            </span>
+            </a>
+        </li>
+        {% endfor %}
+      </ul>
     </div>
     {% include 'Core/pagination.html' %}
   </div>
