@@ -83,3 +83,34 @@ class InvoiceCreateView(CreateView):
                 service = Service.objects.get(service_name=k.replace('num_',''))
                 InvoiceService.objects.create(service= service,invoice= self.object, quantity=int(v))
         return HttpResponseRedirect(self.get_success_url())
+
+class InvoiceUpdateView(UpdateView):
+    model = Invoice
+    fields = ['client','vat_percentage']
+
+    def get_success_url(self, **kwargs):
+        return reverse('invoice-detail', args=[self.object.pk]) 
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["services"] = Service.objects.all()
+        context["invoice_services"] = InvoiceService.objects.filter(invoice=self.get_object()).all()
+        context["service_values"] = { service.service.service_name : service.quantity for service in context["invoice_services"]}
+        return context
+    
+    def post(self, request, **kwargs):
+        self.object = self.get_object()
+        service_post = {k.replace('num_',''):v for (k,v) in request.POST.items() if 'num_' in k}
+        for invoice_service in self.object.invoice_services.all():
+            if invoice_service.service.service_name in service_post and service_post[invoice_service.service.service_name]!='0' and service_post[invoice_service.service.service_name]!='':
+                invoice_service.quantity = int(service_post[invoice_service.service.service_name])
+                invoice_service.save()
+            elif invoice_service.service.service_name in service_post and (service_post[invoice_service.service.service_name]=='0' or service_post[invoice_service.service.service_name]==''):
+                invoice_service.delete()
+            service_post.pop(invoice_service.service.service_name)
+        for k,v in service_post.items():
+            service = Service.objects.get(service_name=k.replace('num_',''))
+            if v !='':
+                InvoiceService.objects.create(service= service,invoice= self.object, quantity=int(v))
+        self.object.save()
+        return super(InvoiceUpdateView, self).post(request, **kwargs)

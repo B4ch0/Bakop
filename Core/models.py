@@ -38,3 +38,13 @@ class Invoice(models.Model):
 
     def __str__(self) -> str:
         return f'{self.client}'
+
+
+class InvoiceService(models.Model):
+    service =  models.ForeignKey(
+        Service, on_delete=models.CASCADE, related_name='invoice_services')
+    invoice =  models.ForeignKey(
+        Invoice, on_delete=models.CASCADE, related_name='invoice_services')
+    quantity = models.IntegerField()
+    def __str__(self) -> str:
+        return f'{self.invoice} - {self.service} - {self.quantity} '
