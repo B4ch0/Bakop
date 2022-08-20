@@ -1,34 +1,51 @@
 
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.views.generic.list import ListView 
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView , UpdateView
 from django.shortcuts import redirect, render
 
-from .models import Client, Service, Invoice
+from .models import Client, InvoiceService, Service, Invoice
 
 
 def home(request):
     return redirect("invoice-list")  
 
+
 class ClientListView(ListView):
+    paginate_by = 20
     model = Client
 
 
 class ServiceListView(ListView):
+    paginate_by = 20
     model = Service
-   
+    ordering = ['-pk']
+
 
 class InvoiceListView(ListView):
+    paginate_by = 20
     model = Invoice
 
+class ClientDetailView(DetailView):
+    model = Client
+
+
+class ServiceDetailView(DetailView):
+    model = Service
+
+
+class InvoiceDetailView(DetailView):
+    model = Invoice
+
+    
 
 class ClientCreateView(CreateView):
-
     model = Client
     fields = ['first_name', 'last_name' , 'address','OIB']
     def get_success_url(self, **kwargs):
         return reverse('client-detail', args=[self.object.pk]) 
-
 
 
 class ServiceCreateView(CreateView):
@@ -37,32 +54,6 @@ class ServiceCreateView(CreateView):
     def get_success_url(self, **kwargs):
         return reverse('service-detail', args=[self.object.pk]) 
 
-
-class ClientUpdateView(UpdateView):
-    model = Client
-    fields = ['first_name', 'last_name' , 'address','OIB']
-    def get_success_url(self, **kwargs):
-        return reverse('client-detail', args=[self.object.pk]) 
-
-
-class ServiceUpdateView(UpdateView):
-    model = Service
-    fields = ['service_name', 'price']
-    def get_success_url(self, **kwargs):
-        return reverse('service-detail', args=[self.object.pk]) 
-
-class ClientUpdateView(UpdateView):
-    model = Client
-    fields = ['first_name', 'last_name' , 'address','OIB']
-    def get_success_url(self, **kwargs):
-        return reverse('client-detail', args=[self.object.pk]) 
-
-
-class ServiceUpdateView(UpdateView):
-    model = Service
-    fields = ['service_name', 'price']
-    def get_success_url(self, **kwargs):
-        return reverse('service-detail', args=[self.object.pk]) 
 
 class InvoiceCreateView(CreateView):
     model = Invoice
@@ -83,6 +74,19 @@ class InvoiceCreateView(CreateView):
                 service = Service.objects.get(service_name=k.replace('num_',''))
                 InvoiceService.objects.create(service= service,invoice= self.object, quantity=int(v))
         return HttpResponseRedirect(self.get_success_url())
+
+class ClientUpdateView(UpdateView):
+    model = Client
+    fields = ['first_name', 'last_name' , 'address','OIB']
+    def get_success_url(self, **kwargs):
+        return reverse('client-detail', args=[self.object.pk]) 
+
+
+class ServiceUpdateView(UpdateView):
+    model = Service
+    fields = ['service_name', 'price']
+    def get_success_url(self, **kwargs):
+        return reverse('service-detail', args=[self.object.pk]) 
 
 class InvoiceUpdateView(UpdateView):
     model = Invoice
@@ -114,3 +118,4 @@ class InvoiceUpdateView(UpdateView):
                 InvoiceService.objects.create(service= service,invoice= self.object, quantity=int(v))
         self.object.save()
         return super(InvoiceUpdateView, self).post(request, **kwargs)
+

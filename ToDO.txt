@@ -2,3 +2,5 @@
 - maknuti "None" sa ostalih djelova prikaza(field,object)
 - dodati postgresql za prod
 - dodati punude
+- ručni unos: datum računa + datum odrađene usluge
+- na racun staviti cijenu artikla

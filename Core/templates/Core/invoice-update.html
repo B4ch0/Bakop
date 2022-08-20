@@ -1,0 +1,157 @@
+{% extends 'Core/base.html' %} {% block content %}
+{% comment %} {% load currency %} {% endcomment %}
+{% load dict_key %}
+<div class=" flex items-center justify-center pt-8">
+    <div class="p-6 rounded-lg shadow-lg bg-white max-w-lg border-4 border-brand flex flex-col items-center">
+        <h1 class="text-4xl">Izmjeni račun</h1>
+        <div class=" mb-6">
+        <table id="service-table" class="shadow-lg bg-white border-separate pb-6">
+            <thead>
+                <tr>
+                    <th class="bg-brand border text-left px-8 py-4">USLUGA</th>
+                    <th class="bg-brand border text-left px-8 py-4">CIJENA</th>
+                    <th class="bg-brand border text-left px-8 py-4">KOLIČINA</th>
+                  </tr>
+            </thead>
+            <tbody>
+                {% for service in invoice_services %}
+                <tr>
+                        <td class="border px-8 py-4">{{service.service.service_name}}</td>
+                        <td class="border px-8 py-4">{{service.service.price }} Kn</td>
+                        <td class="border px-8 py-4">{{service.quantity}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        </div>
+        <form method="post" class="flex flex-col items-center justify-center mt-8">
+        <div class="flex flex-row justify-evenly w-full">
+                <select name="service" id="service" class="rounded-lg p-3">
+                    {% for service in services %}
+                <option value="{{service.price|floatformat:0}}">{{service.service_name}}</option>
+                {% endfor %}
+                </select>
+                <button id="add-btn" class="border-2 bg-brand rounded-lg p-3"> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg> </button>
+                <button id="remove-btn" class="border-2 bg-brand rounded-lg p-3"> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg> </button>
+                </div>
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {% for field in form %}
+            <div class="form-group mb-6">
+                <div class="">
+                    
+                    {{ field.errors }}
+                </div>
+        {% endfor %}
+
+        <div class="form-label inline-block mb-2 text-gray-700">
+            {{ form.client.label_tag }}
+            </div>
+            <div class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none">
+
+            {{ form.client }}
+        </div>
+        <span class="helptext">{{ form.client.help_text }}</span>
+
+        <div class="form-label inline-block mb-2 text-gray-700">
+            {{ form.vat_percentage.label_tag }}
+            </div>
+            <div class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none">
+
+            {{ form.vat_percentage }}
+        </div>
+        <span class="helptext">{{ form.vat_percentage.help_text }}</span>
+    </div>
+    {% for service in services %}
+        {% with name=service.service_name %}
+            {% if service_values|dict_key:name != None %}
+            <input type="number" hidden id="num_{{name}}" name="num_{{name}}" value="{{service_values|dict_key:name}}" > 
+            {% else %}
+            <input type="number" hidden id="num_{{name}}" name="num_{{name}}"> 
+            {% endif %}
+        {% endwith %}
+    {% endfor %}
+    <input type="submit" value="Izmjeni" class="border-2 bg-brand rounded-lg p-3">
+</form>
+</div>
+</div>
+<script>
+const table = document.getElementById('service-table');
+const service = document.getElementById('service');
+const classNames = ['border', 'px-8', 'py-4'];
+
+function AddRow(serviceName) {
+    console.log(serviceName);
+    const row = table.insertRow(1);
+    let cell = row.insertCell(0);
+    cell.innerHTML = `<td>${serviceName}</td>`
+    for (const className of classNames) {
+        cell.classList.add( className);
+    }
+    cell = row.insertCell(1);
+    cell.innerHTML = `<td>${service.value}</td>`;
+    for (const className of classNames) {
+        cell.classList.add( className);
+    }
+    cell = row.insertCell(2);
+    cell.innerHTML = `<td>${1}</td>`;
+    const serviceElement = document.getElementById(`num_${serviceName}`);
+    serviceElement.stepUp();
+    console.log(serviceElement.value);
+    for (const className of classNames) {
+        cell.classList.add( className);
+    }
+}
+
+function EditRow(serviceName, dir) {
+    for (let i = 0; i < table.rows.length; i++) {
+        const row = table.rows[i];
+        if(row.cells[0].innerText == serviceName){
+            const serviceElement = document.getElementById(`num_${serviceName}`);
+            if (dir == 1){
+                serviceElement.stepUp();
+                row.cells[2].innerText = parseInt(row.cells[2].innerText) + 1;
+            }
+            else{
+                serviceElement.stepDown();
+                row.cells[2].innerText = parseInt(row.cells[2].innerText) - 1;
+                if( row.cells[2].innerText ==0){
+                    table.deleteRow(i);
+                }
+            }
+            console.log(serviceElement.value);
+            return true;
+        }
+    }
+    return false;
+} 
+window.onload =()=>{
+    document.getElementById('add-btn').onclick=(e)=>{
+    remove-row-btn
+    }
+
+    document.getElementById('add-btn').onclick=(e)=>{
+        e.preventDefault();
+        const serviceName = service.options[service.selectedIndex].text;
+        rowEdited = EditRow(serviceName, 1);
+        if (!rowEdited){
+            AddRow(serviceName);
+        }        
+        
+    }
+    document.getElementById('remove-btn').onclick=(e)=>{
+        e.preventDefault();
+        const serviceName = service.options[service.selectedIndex].text;
+        EditRow(serviceName, -1);
+        
+    }
+}
+
+
+</script>
+{% endblock %}

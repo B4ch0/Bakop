@@ -13,13 +13,13 @@ class Client(models.Model):
     def __str__(self) -> str:
         return f'{self.first_name} {self.last_name}'
 
+
 class Service(models.Model):
     service_name = models.CharField(max_length=64, verbose_name="Usluga")
     price = models.FloatField(verbose_name="Cijena")
 
     def __str__(self) -> str:
         return f'{self.service_name} {self.price}'
-
 
 
 class Invoice(models.Model):
@@ -38,7 +38,6 @@ class Invoice(models.Model):
 
     def __str__(self) -> str:
         return f'{self.client}'
-
 
 class InvoiceService(models.Model):
     service =  models.ForeignKey(
