@@ -134,6 +134,6 @@ INTERNAL_IPS = [
 ]
 
 
-LOGIN_REDIRECT_URL = 'client-list'
+LOGIN_REDIRECT_URL = 'invoice-list'
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'login'
